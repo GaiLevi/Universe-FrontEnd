@@ -1,0 +1,13 @@
+$headerHeight: 70px;
+html {
+  font-family: pts-regular;
+  background-color: #96b6c5;
+}
+
+body {
+  margin: 0;
+}
+
+.app-content {
+  margin-top: $headerHeight;
+}

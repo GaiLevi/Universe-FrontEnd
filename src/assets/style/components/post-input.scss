@@ -1,0 +1,15 @@
+.post-input {
+  display: flex;
+  margin-top: 100px;
+  align-items: center;
+  justify-content: center;
+  .input {
+    width: 80%;
+    height: 50px;
+    border-radius: 7px;
+    border: unset;
+    padding-inline: 10px;
+    font-size: 22px;
+    margin-inline: 8px;
+  }
+}

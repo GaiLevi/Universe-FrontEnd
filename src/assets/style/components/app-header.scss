@@ -1,0 +1,19 @@
+.app-header {
+  border-bottom: 1px solid black;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: $headerHeight;
+
+  .logo-container {
+    display: flex;
+    justify-content: center;
+  }
+  .logo {
+    width: 40px;
+  }
+  .title {
+    margin-inline: 2px;
+    color: #1c274c;
+  }
+}

@@ -1,0 +1,16 @@
+// GENERAL
+@import "./general/font.scss";
+
+@import "./general/normalize.scss";
+
+@import "./general/palette.scss";
+
+@import "./general/typography.scss";
+
+// COMPONENTS
+@import "./components/app-header.scss";
+
+@import "./components/post-input.scss";
+
+// COMMONS
+@import "./components/common/button.scss";
