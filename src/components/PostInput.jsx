@@ -1,4 +1,5 @@
 import { httpService } from "../services/http.service";
+import { postService } from "../services/posts.service";
 import { Button } from "./common/Button";
 import { useState } from "react";
 export const PostInput = () => {
@@ -10,8 +11,9 @@ export const PostInput = () => {
   }
 
   async function post() {
-    const user = await httpService.post("/posts", { text: input });
-    // console.log(input);
+    const newPost = {text:input,date:new Date()};
+    const post =  await postService.addPost(newPost);
+    console.log(`post has printed ${JSON.stringify(post)}`);
   }
   return (
     <section className="post-input">
