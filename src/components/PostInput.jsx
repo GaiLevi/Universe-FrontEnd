@@ -1,7 +1,7 @@
 import { httpService } from "../services/http.service";
 import { Button } from "./common/Button";
 import { useState } from "react";
-export const PostInput = () => {
+export const PostInput = ({ getPosts }) => {
   let [input, setInput] = useState("");
 
   function onInput(event) {
@@ -10,12 +10,14 @@ export const PostInput = () => {
   }
 
   async function post() {
-    const user = await httpService.post("/posts", { text: input });
-    // console.log(input);
+    await httpService.post("/posts", { text: input });
+    await getPosts();
+    setInput("");
   }
   return (
     <section className="post-input">
       <input
+        value={input}
         onInput={onInput}
         type="text"
         className="input"
