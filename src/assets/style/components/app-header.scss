@@ -4,10 +4,14 @@
   top: 0;
   width: 100%;
   height: $headerHeight;
+  display: flex;
+  justify-content: center;
 
   .logo-container {
     display: flex;
     justify-content: center;
+    cursor: pointer;
+    width: fit-content;
   }
   .logo {
     width: 40px;
