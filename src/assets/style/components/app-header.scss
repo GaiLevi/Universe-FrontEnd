@@ -5,8 +5,12 @@
   width: 100%;
   height: $headerHeight;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
 
+  .button {
+    margin-right: 20px;
+  }
   .logo-container {
     display: flex;
     justify-content: center;

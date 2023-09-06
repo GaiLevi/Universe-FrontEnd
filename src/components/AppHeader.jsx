@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { Button } from "./common/Button";
 
 export const AppHeader = () => {
   const navigate = useNavigate();
@@ -7,6 +8,7 @@ export const AppHeader = () => {
   }
   return (
     <section className="app-header secondary-bg">
+      <div></div>
       <div className="logo-container" onClick={goToFeed}>
         <img
           className="logo"
@@ -15,6 +17,7 @@ export const AppHeader = () => {
         />
         <h1 className="title">Universe</h1>
       </div>
+      <Button onClick={() => navigate("/login")} label={"Login"} />
     </section>
   );
 };
