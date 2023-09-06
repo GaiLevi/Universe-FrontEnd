@@ -8,14 +8,16 @@ import {
 import { httpService } from "../services/http.service";
 import { Post } from "../components/Post";
 import { postService } from "../services/post-service";
+import { EditDialog } from "../components/EditDialog";
 
 export const SinglePost = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState();
+  const [isDialog, setIsDialog] = useState(false);
   async function getPost(id) {
-    const post = await httpService.get(`/posts/${id}`);
-    setPost(post);
+    const postResult = await postService.getPost(id);
+    setPost(postResult);
   }
   useEffect(() => {
     getPost(id);
@@ -26,7 +28,12 @@ export const SinglePost = () => {
     navigate("/");
   }
   async function onEdit() {
-    await postService.editPost({ ...post, text: (post.text += "!") });
+    setIsDialog(true);
+    await getPost(id);
+  }
+  async function editPost(text) {
+    const editedPost = { ...post, text: text };
+    await postService.editPost(editedPost);
     await getPost(id);
   }
   return (
@@ -34,6 +41,11 @@ export const SinglePost = () => {
       {post && (
         <Post post={post} deletePost={onDelete} editPost={onEdit} isEdit />
       )}
+      <EditDialog
+        editPost={editPost}
+        isOpen={isDialog}
+        setIsDialog={setIsDialog}
+      />
     </section>
   );
 };

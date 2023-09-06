@@ -1,4 +1,6 @@
 import { Feed } from "./views/Feed.jsx";
+import { Login } from "./views/Login.jsx";
+import { SignUp } from "./views/SignUp.jsx";
 import { SinglePost } from "./views/SinglePost.jsx";
 // Routes accesible from the main navigation (in AppHeader)
 const routes = [
@@ -9,6 +11,14 @@ const routes = [
   {
     path: "/post/:id",
     element: SinglePost,
+  },
+  {
+    path: "/login",
+    element: Login,
+  },
+  {
+    path: "/signup",
+    element: SignUp,
   },
 ];
 

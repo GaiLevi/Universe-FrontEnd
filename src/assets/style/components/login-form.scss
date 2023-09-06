@@ -1,0 +1,40 @@
+.login-form,
+.signup-form {
+  .title-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
+      width: 50px;
+      margin-inline: 10px;
+    }
+    h1 {
+      font-size: 50px;
+    }
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    input {
+      width: 30%;
+      height: 35px;
+      border: 1px solid black;
+      margin-block: 10px;
+      border-radius: 10px;
+      padding-inline: 8px;
+    }
+    .button-container {
+      display: flex;
+      flex-direction: row;
+      .button {
+        margin-inline: 10px;
+      }
+    }
+  }
+  .error-msg {
+    color: rgb(195, 0, 0);
+    font-weight: bold;
+    font-size: 18px;
+  }
+}

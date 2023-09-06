@@ -12,4 +12,9 @@ async function editPost(post) {
   await httpService.put(`/posts`, post);
 }
 
-export const postService = { getPosts, deletePost, editPost };
+async function getPost(id) {
+  const post = await httpService.get(`/posts/${id}`);
+  return post;
+}
+
+export const postService = { getPosts, deletePost, editPost, getPost };
