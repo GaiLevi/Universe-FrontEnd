@@ -1,11 +1,30 @@
+import { useEffect } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import { useRecoilState, useRecoilValue } from "recoil";
 import "./App.css";
-import "./views/Feed";
 import "./assets/style/main.scss";
-import routes from "./routes.ts";
-import { Route, Routes } from "react-router-dom";
+import { loggedInUser } from "./atoms/loggedInUser";
 import { AppHeader } from "./components/AppHeader";
-
+import routes from "./routes.ts";
+import { loggedInUserState } from "./selectors/loggedInUser-selector";
+import { authService } from "./services/auth-service";
+import "./views/Feed";
 const App = () => {
+  const [loggedUser, setLoggedUser] = useRecoilState(loggedInUser);
+  const user1 = useRecoilValue(loggedInUserState);
+  const navigate = useNavigate();
+  async function setUserToken() {
+    const user = await authService.getLoggedUser();
+    if (!user) {
+      navigate("/login");
+    } else {
+      navigate("/");
+      setLoggedUser(user);
+    }
+  }
+  useEffect(() => {
+    setUserToken();
+  }, []);
   return (
     <div className="App">
       {/* Header */}

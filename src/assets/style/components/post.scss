@@ -1,4 +1,5 @@
 .post {
+  position: relative;
   background-color: white;
   height: 110px;
   width: 75%;
@@ -9,4 +10,36 @@
   padding-inline: 15px;
   font-size: 18px;
   align-items: flex-end;
+  .time-stamp {
+    font-size: 12px;
+    opacity: 0.7;
+    position: absolute;
+    right: 10px;
+    top: 0;
+  }
+  .action-buttons {
+    position: absolute;
+    justify-content: space-between;
+    right: 10px;
+    bottom: 10px;
+    width: 60px;
+    display: flex;
+  }
+  img {
+    width: 25px;
+    cursor: pointer;
+    transition-duration: 0.3s;
+    right: 10px;
+    bottom: 0;
+  }
+  img:hover {
+    transform: scale(1.1);
+  }
+  .user-name {
+    position: absolute;
+    margin: 0;
+    top: 8px;
+    left: 15px;
+    font-weight: bold;
+  }
 }

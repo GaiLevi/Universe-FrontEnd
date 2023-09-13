@@ -1,14 +1,8 @@
 import { useEffect, useState } from "react";
-import {
-  useParams,
-  useSearchParams,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
-import { httpService } from "../services/http.service";
+import { useNavigate, useParams } from "react-router-dom";
+import { EditDialog } from "../components/EditDialog";
 import { Post } from "../components/Post";
 import { postService } from "../services/post-service";
-import { EditDialog } from "../components/EditDialog";
 
 export const SinglePost = () => {
   const { id } = useParams();

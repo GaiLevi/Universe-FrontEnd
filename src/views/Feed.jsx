@@ -4,9 +4,12 @@ import { PostsFeed } from "../components/PostsFeed.jsx";
 import { httpService } from "../services/http.service.js";
 import { useNavigate, useParams } from "react-router-dom";
 import { postService } from "../services/post-service.js";
+import { loggedInUserState } from "../selectors/loggedInUser-selector.js";
+import { useRecoilValue } from "recoil";
 export const Feed = () => {
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
+  const user = useRecoilValue(loggedInUserState);
   useEffect(() => {
     getPosts();
   }, []);
