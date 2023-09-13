@@ -1,15 +1,20 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { loggedInUser } from "../atoms/loggedInUser";
 import { LoginForm } from "../components/LoginForm";
 import { authService } from "../services/auth-service";
-import { useState } from "react";
 
 export const Login = () => {
   const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState("");
+  const [loggedUser, setLoggedUser] = useRecoilState(loggedInUser);
   const submitForm = async (info) => {
     setErrorMsg("");
     try {
       const user = await authService.login(info);
+      setLoggedUser(user);
+      navigate("/");
     } catch (error) {
       setErrorMsg(error);
     }
