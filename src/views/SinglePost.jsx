@@ -13,10 +13,14 @@ export const SinglePost = () => {
     const postResult = await postService.getPost(id);
     setPost(postResult);
   }
+
   useEffect(() => {
     getPost(id);
   }, [id]);
 
+  async function rerenderPost() {
+    await getPost(id);
+  }
   async function onDelete() {
     await postService.deletePost(id);
     navigate("/");
@@ -33,7 +37,13 @@ export const SinglePost = () => {
   return (
     <section className="single-post">
       {post && (
-        <Post post={post} deletePost={onDelete} editPost={onEdit} isEdit />
+        <Post
+          post={post}
+          deletePost={onDelete}
+          editPost={onEdit}
+          isEdit
+          getPosts={rerenderPost}
+        />
       )}
       <EditDialog
         editPost={editPost}

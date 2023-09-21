@@ -1,0 +1,14 @@
+.show-more {
+  display: flex;
+  flex-direction: column;
+  .text {
+    margin-block: 10px;
+  }
+  .show-more-btn {
+    text-decoration: underline;
+    cursor: pointer;
+    color: #1c274c;
+    font-weight: bold;
+  }
+  word-wrap: break-word;
+}

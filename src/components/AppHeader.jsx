@@ -25,7 +25,16 @@ export const AppHeader = () => {
   return (
     <section className="app-header secondary-bg">
       <div className="logged-user" onClick={goToProfile}>
-        {loggedUser && loggedUser.userName}
+        {loggedUser && (
+          <div className="user-display">
+            <img
+              className="profile-img"
+              src={loggedUser.profileImage}
+              alt="profile-pic"
+            />
+            <p className="user-name">{loggedUser.userName}</p>
+          </div>
+        )}
       </div>
       <div className="logo-container" onClick={goToFeed}>
         <img

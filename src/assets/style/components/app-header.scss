@@ -29,4 +29,18 @@
     font-weight: bold;
     padding-inline: 10px;
   }
+  .user-display {
+    display: flex;
+    align-items: center;
+  }
+  .profile-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-position: center center;
+    object-fit: cover;
+  }
+  .user-name {
+    margin-inline: 10px;
+  }
 }

@@ -68,6 +68,12 @@ export const SignUpForm = ({ submitForm }) => {
           name="confirmPassword"
           required
         />
+        <input
+          onInput={onInput}
+          type="text"
+          placeholder="Profile image URL"
+          name="profileImage"
+        />
         <div className="button-container">
           <Button label={"Back to login"} onClick={() => navigate("/login")} />
           <Button label={"SignUp"} />

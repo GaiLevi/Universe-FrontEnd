@@ -11,3 +11,7 @@ body {
 .app-content {
   margin-top: $headerHeight;
 }
+p {
+  margin: 0;
+  height: fit-content;
+}

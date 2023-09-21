@@ -18,11 +18,11 @@ export const EditDialog = ({ isOpen, setIsDialog, editPost }) => {
     setInput("");
     closeDialog();
   }
-  window.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      onEditPost();
-    }
-  });
+  // window.addEventListener("keydown", (event) => {
+  //   if (event.key === "Enter") {
+  //     onEditPost();
+  //   }
+  // });
   return (
     isOpen && (
       <div>

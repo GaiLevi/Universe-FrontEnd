@@ -1,45 +1,87 @@
 .post {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   position: relative;
   background-color: white;
-  height: 110px;
+  min-height: 150px;
   width: 75%;
   margin: auto;
   border-radius: 10px;
-  display: flex;
   margin-bottom: 15px;
   padding-inline: 15px;
   font-size: 18px;
-  align-items: flex-end;
+
+  .post-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    p {
+      margin-block: 0;
+    }
+    margin-top: 10px;
+  }
   .time-stamp {
     font-size: 12px;
     opacity: 0.7;
-    position: absolute;
     right: 10px;
     top: 0;
   }
   .action-buttons {
-    position: absolute;
+    opacity: 0;
     justify-content: space-between;
     right: 10px;
     bottom: 10px;
-    width: 60px;
     display: flex;
+    transition: opacity 0.1s;
+    width: 60px;
   }
-  img {
+  .post-footer {
+    display: flex;
+    align-items: center;
+
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .action-btn {
+    margin-inline: 5px;
     width: 25px;
     cursor: pointer;
     transition-duration: 0.3s;
     right: 10px;
     bottom: 0;
   }
-  img:hover {
+  .action-btn:hover {
     transform: scale(1.1);
   }
+
+  .user-display {
+    display: flex;
+    height: fit-content;
+    cursor: pointer;
+    align-items: center;
+  }
   .user-name {
-    position: absolute;
-    margin: 0;
-    top: 8px;
-    left: 15px;
+    margin-inline: 10px;
+    margin-block: 0;
     font-weight: bold;
+  }
+  .profile-img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-position: center center;
+    object-fit: cover;
+  }
+  &:hover {
+    .action-buttons {
+      display: flex;
+      opacity: 1;
+    }
+  }
+
+  .like-btn {
+    width: 25px;
+    cursor: pointer;
   }
 }
