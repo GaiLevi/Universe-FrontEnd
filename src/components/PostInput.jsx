@@ -10,11 +10,20 @@ export const PostInput = ({ getPosts }) => {
     const text = event.target.value;
     setInput(text);
   }
-
+  // window.addEventListener("keydown", (ev) => {
+  //   if (ev.key === "Enter") {
+  //     console.log(user);
+  //     // post();
+  //   }
+  // });
   async function post() {
     await httpService.post("/posts", {
       text: input,
-      user: { id: user._id, userName: user.userName },
+      user: {
+        id: user._id,
+        userName: user.userName,
+        profileImage: user.profileImage,
+      },
     });
     await getPosts();
     setInput("");

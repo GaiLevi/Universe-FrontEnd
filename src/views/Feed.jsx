@@ -31,6 +31,7 @@ export const Feed = () => {
         posts={posts}
         deletePost={deletePost}
         enterPost={enterPost}
+        getPosts={getPosts}
       ></PostsFeed>
     </section>
   );

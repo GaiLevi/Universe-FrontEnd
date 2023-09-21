@@ -5,6 +5,7 @@ async function signUpUser(user) {
     return await httpService.post("/users", user);
   } catch (error) {
     console.error(error);
+    return error.response.data.message;
   }
 }
 

@@ -17,4 +17,24 @@ async function getPost(id) {
   return post;
 }
 
-export const postService = { getPosts, deletePost, editPost, getPost };
+async function getUserPosts(userId) {
+  const userPosts = await httpService.get(`/posts/posts/${userId}`);
+  return userPosts;
+}
+
+async function toggleLike(userId, postId) {
+  try {
+    await httpService.post(`/posts/like/${userId}/${postId}`);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export const postService = {
+  getPosts,
+  deletePost,
+  editPost,
+  getPost,
+  getUserPosts,
+  toggleLike,
+};
