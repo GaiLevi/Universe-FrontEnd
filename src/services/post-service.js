@@ -30,6 +30,14 @@ async function toggleLike(userId, postId) {
   }
 }
 
+async function addComment(postId,user,text){
+  await httpService.post(`/posts/comment/${postId}`,{
+    text: text,
+    user: user,
+  });
+
+}
+
 export const postService = {
   getPosts,
   deletePost,
@@ -37,4 +45,5 @@ export const postService = {
   getPost,
   getUserPosts,
   toggleLike,
+  addComment,
 };

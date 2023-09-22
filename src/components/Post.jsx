@@ -47,6 +47,10 @@ export const Post = ({
       return post.likes.includes(loggedUser._id);
     }
   }
+  async function OnClickComment() {
+    await postService.addComment(post._id, loggedUser, "hereee");
+    getPosts();
+  }
   return (
     <section className="post">
       {/* POST HEADER */}
@@ -69,19 +73,32 @@ export const Post = ({
       <ShowMore text={post.text} maxLength={100} />
       {/* POST FOOTER */}
       <div className="post-footer">
-        <div>
-          <img
-            className="like-btn"
-            onClick={toggleLike}
-            src={
-              require(isUserLiked()
-                ? "../assets/imgs/like-filled.svg"
-                : "../assets/imgs/like.svg").default
-            }
-            alt="like"
-          />
-          <p>{post.likes.length}</p>
+        <div className="like-comment-btn">
+          {/* LIKE BUTTON */}
+          <div>
+            <img
+              className="like-btn"
+              onClick={toggleLike}
+              src={
+                require(isUserLiked()
+                  ? "../assets/imgs/like-filled.svg"
+                  : "../assets/imgs/like.svg").default
+              }
+              alt="like"
+            />
+            <p>{post.likes.length}</p>
+          </div>
+          <div>
+            <img
+              className="comment-btn"
+              onClick={OnClickComment}
+              src={require("../assets/imgs/comment.svg").default}
+              alt="comment"
+            />
+            <p>{post.comments.length}</p>
+          </div>
         </div>
+        {/* COMMENT BUTTON */}
         {/* ACTION BUTTONS */}
         <div className="action-buttons">
           {isUserOwnPost ? (

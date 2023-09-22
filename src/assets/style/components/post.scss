@@ -80,7 +80,15 @@
     }
   }
 
+  .like-comment-btn {
+    display: flex;
+    align-items: center;
+  }
   .like-btn {
+    width: 25px;
+    cursor: pointer;
+  }
+  .comment-btn {
     width: 25px;
     cursor: pointer;
   }
