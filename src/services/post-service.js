@@ -30,12 +30,19 @@ async function toggleLike(userId, postId) {
   }
 }
 
-async function addComment(postId,user,text){
-  await httpService.post(`/posts/comment/${postId}`,{
+async function addComment(postId, user, text) {
+  await httpService.post(`/posts/comment/${postId}`, {
     text: text,
     user: user,
   });
+}
 
+async function deleteComment(postId, commentId) {
+  try {
+    await httpService.delete(`/posts/comment/${postId}/${commentId}`);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export const postService = {
@@ -46,4 +53,5 @@ export const postService = {
   getUserPosts,
   toggleLike,
   addComment,
+  deleteComment,
 };

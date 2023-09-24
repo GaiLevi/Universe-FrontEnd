@@ -4,6 +4,7 @@ import { loggedInUserState } from "../selectors/loggedInUser-selector";
 import { useEffect, useState } from "react";
 import { ShowMore } from "./common/ShowMore";
 import { postService } from "../services/post-service";
+import { PostDialog } from "./PostDialog.jsx";
 
 export const Post = ({
   post,
@@ -12,6 +13,7 @@ export const Post = ({
   editPost,
   isEnter,
   isEdit,
+  isComments,
   getPosts,
 }) => {
   const loggedUser = useRecoilValue(loggedInUserState);
@@ -22,6 +24,7 @@ export const Post = ({
     }
   }, [post]);
   const navigate = useNavigate();
+  const [isPostDialog, setIsPostDialog] = useState(false);
   function onDelete() {
     deletePost(post._id);
   }
@@ -48,8 +51,14 @@ export const Post = ({
     }
   }
   async function OnClickComment() {
-    await postService.addComment(post._id, loggedUser, "hereee");
-    getPosts();
+    // const user = {
+    //   id: loggedUser._id,
+    //   userName: loggedUser.userName,
+    //   profileImage: loggedUser.profileImage,
+    // };
+    // await postService.addComment(post._id, user, "hereee");
+    // getPosts();
+    setIsPostDialog(true);
   }
   return (
     <section className="post">
@@ -128,6 +137,16 @@ export const Post = ({
             />
           )}
         </div>
+      </div>
+
+      <div className="comments">
+        <PostDialog
+          isOpen={isPostDialog}
+          setIsDialog={setIsPostDialog}
+          deletePost={onDelete}
+          post={post}
+          getposts={getPosts}
+        />
       </div>
     </section>
   );
