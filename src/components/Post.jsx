@@ -51,13 +51,6 @@ export const Post = ({
     }
   }
   async function OnClickComment() {
-    // const user = {
-    //   id: loggedUser._id,
-    //   userName: loggedUser.userName,
-    //   profileImage: loggedUser.profileImage,
-    // };
-    // await postService.addComment(post._id, user, "hereee");
-    // getPosts();
     setIsPostDialog(true);
   }
   return (

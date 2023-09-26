@@ -45,6 +45,14 @@ async function deleteComment(postId, commentId) {
   }
 }
 
+async function toggleCommentLike(userId, postId, commentId) {
+  try {
+    await httpService.post(`/posts/comment/${userId}/${postId}/${commentId}`);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export const postService = {
   getPosts,
   deletePost,
@@ -54,4 +62,5 @@ export const postService = {
   toggleLike,
   addComment,
   deleteComment,
+  toggleCommentLike,
 };

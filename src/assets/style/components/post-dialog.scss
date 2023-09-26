@@ -32,9 +32,28 @@
     justify-content: center;
   }
   .comments-container {
-    // height: 100%;
-    max-height: 400px; /* Set the maximum height you desire */
+    max-height: 50%; /* Set the maximum height you desire */
     overflow-y: auto;
+
+    scrollbar-width: thin; /* Set the width of the scrollbar (supported in Firefox) */
+    scrollbar-color: rgba(0, 0, 0, 0.5) rgba(0, 0, 0, 0.1); /* Set the scrollbar color (supported in Firefox) */
+
+    /* For WebKit-based browsers like Chrome and Safari */
+    &::-webkit-scrollbar {
+      width: 6px; /* Set the width of the scrollbar */
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.5); /* Set the thumb color */
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(0, 0, 0, 0.7); /* Set the thumb color on hover */
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: rgba(0, 0, 0, 0.1); /* Set the track color */
+    }
   }
   .comment-header {
     display: flex;
@@ -57,6 +76,7 @@
     height: fit-content;
     cursor: pointer;
     align-items: center;
+    margin-block: 8px;
   }
   .user-name {
     margin-inline: 10px;
@@ -73,6 +93,7 @@
   .comment-footer {
     display: flex;
     justify-content: space-between;
+    margin-inline: 10px;
   }
   .delete-img {
     opacity: 0;

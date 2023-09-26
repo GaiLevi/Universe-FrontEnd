@@ -53,6 +53,16 @@ export const PostDialog = ({
     await postService.deleteComment(post._id, commentId);
     getposts();
   }
+  async function toggleCommentLike(commentId) {
+    console.log(loggedUser._id, post._id, commentId);
+    await postService.toggleCommentLike(loggedUser._id, post._id, commentId);
+    getposts();
+  }
+  function isUserLiked(comment) {
+    if (loggedUser) {
+      return comment.likes.includes(loggedUser._id);
+    }
+  }
   const comments = [...post.comments];
   comments.reverse();
   return (
@@ -63,7 +73,7 @@ export const PostDialog = ({
             <Post
               className="post-dialog-header"
               post={post}
-              isEdit
+              // isEdit
               deletePost={onDelete}
               isComments
               getPosts={getposts}
@@ -79,7 +89,11 @@ export const PostDialog = ({
               placeholder="Write a comment.."
               required
             />
-            <Button onClick={OnClickComment} label={"Comment"} />
+            <Button
+              onClick={OnClickComment}
+              label={"Comment"}
+              style={{ height: "33px", marginInline: "10px" }}
+            />
           </div>
           {/* COMMENTS CONTAINER */}
           <div className="comments-container">
@@ -104,8 +118,21 @@ export const PostDialog = ({
                     </p>
                   </div>
                   <p className="comment-text">{comment.text}</p>
+                  {/* COMMENT-FOOTER */}
                   <div className="comment-footer">
-                    <div></div>
+                    <div>
+                      <img
+                        className="like-btn"
+                        onClick={() => toggleCommentLike(comment._id)}
+                        src={
+                          require(isUserLiked(comment)
+                            ? "../assets/imgs/like-filled.svg"
+                            : "../assets/imgs/like.svg").default
+                        }
+                        alt="like"
+                      />
+                      <p>{comment.likes.length}</p>
+                    </div>
                     {comment.user.id === loggedUser._id ? (
                       <img
                         className="delete-img"
