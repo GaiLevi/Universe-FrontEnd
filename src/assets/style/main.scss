@@ -20,6 +20,8 @@
 
 @import "./components/login-form.scss";
 
+@import "./components/post-dialog.scss";
+
 // COMMONS
 @import "./components/common/button.scss";
 @import "./components/common/show-more.scss";
@@ -27,3 +29,4 @@
 //VIEWS
 @import "./views/profile-page.scss";
 @import "./views/sign-up.scss";
+@import "./views/login.scss";

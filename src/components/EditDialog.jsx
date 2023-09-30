@@ -26,7 +26,11 @@ export const EditDialog = ({ isOpen, setIsDialog, editPost }) => {
   return (
     isOpen && (
       <div>
-        <div className="black-screen" onClick={closeDialog}></div>
+        <div
+          className="black-screen"
+          id="edit-dialog-black-screen"
+          onClick={closeDialog}
+        ></div>
         <section className="edit-dialog">
           <div className="action-container">
             <input type="text" onInput={onInput} value={input} />
