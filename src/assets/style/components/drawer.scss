@@ -1,0 +1,24 @@
+.drawer {
+  position: fixed;
+
+  .black-screen {
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.494);
+    cursor: pointer;
+  }
+
+  .drawer-inner {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #adc4ce;
+    z-index: 20;
+  }
+}

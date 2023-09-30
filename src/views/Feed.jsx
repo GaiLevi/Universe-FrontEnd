@@ -12,10 +12,12 @@ export const Feed = () => {
   const user = useRecoilValue(loggedInUserState);
   useEffect(() => {
     getPosts();
-  }, []);
+  }, [user]);
   async function getPosts() {
-    const posts = await httpService.get("/posts");
-    setPosts(posts);
+    if (user) {
+      const posts = await postService.getPosts(user._id);
+      setPosts(posts);
+    }
   }
   async function deletePost(id) {
     await postService.deletePost(id);

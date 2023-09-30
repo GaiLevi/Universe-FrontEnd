@@ -17,4 +17,28 @@ async function getUserById(id) {
   }
 }
 
-export const userService = { signUpUser, getUserById };
+async function toggleFollow(userId, followId) {
+  try {
+    return await httpService.post(`/users/follow/${userId}/${followId}`);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function getUsersByName(userName) {
+  try {
+    return await httpService.get(`/users/names/${userName}`);
+  } catch (error) {
+    console.log(error);
+  }
+}
+function isOwnUser(loggedUser, id) {
+  return loggedUser._id === id;
+}
+export const userService = {
+  signUpUser,
+  getUserById,
+  toggleFollow,
+  getUsersByName,
+  isOwnUser,
+};

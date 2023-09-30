@@ -1,0 +1,30 @@
+.user-display-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: 30px;
+  padding-block: 15px;
+  transition-duration: 0.15s;
+  .user-info {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    .user-name {
+      font-size: 21px;
+    }
+  }
+  .profile-image {
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+  }
+  .follow {
+    cursor: pointer;
+  }
+  .follow-image {
+    width: 25px;
+  }
+  &:hover {
+    background-color: #8699a1;
+  }
+}

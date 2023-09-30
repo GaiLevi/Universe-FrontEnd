@@ -5,22 +5,26 @@ import { useRecoilValue } from "recoil";
 import { loggedInUser } from "../atoms/loggedInUser";
 import { useRecoilState } from "recoil";
 import { authService } from "../services/auth-service";
+import { Drawer } from "./Drawer";
+import { useState } from "react";
+import { SearchDialog } from "./SearchDialog";
 export const AppHeader = () => {
   const loggedUser = useRecoilValue(loggedInUserState);
-  const [logout, setLogout] = useRecoilState(loggedInUser);
+  const [isDrawer, setIsDrawer] = useState(false);
+  const [isSearchDialog, setIsSearchDialog] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
   function goToFeed() {
     navigate("/");
   }
-  async function logoutUser() {
-    await authService.logoutUser();
-    setLogout(null);
-    navigate("/login");
-  }
+
   function goToProfile() {
     navigate(`/profile/${loggedUser._id}`);
+  }
+  function openSearchDialog() {
+    setIsSearchDialog(true);
+    setIsDrawer(false);
   }
   return (
     <section className="app-header secondary-bg">
@@ -44,15 +48,24 @@ export const AppHeader = () => {
         />
         <h1 className="title">Universe</h1>
       </div>
-      {!loggedUser ? (
-        location.pathname !== "/login" ? (
-          <Button onClick={() => navigate("/login")} label={"Login"} />
-        ) : (
-          <div></div>
-        )
-      ) : (
-        <Button onClick={logoutUser} label={"Logout"} />
-      )}
+      <img
+        className="drawer-image"
+        src={require("../assets/imgs/menu.svg").default}
+        alt="menu"
+        onClick={() => setIsDrawer(true)}
+      />
+
+      <Drawer
+        isOpen={isDrawer}
+        onClose={() => setIsDrawer(false)}
+        openSearchDialog={openSearchDialog}
+      />
+      <SearchDialog
+        isOpen={isSearchDialog}
+        onClose={() => {
+          setIsSearchDialog(false);
+        }}
+      />
     </section>
   );
 };

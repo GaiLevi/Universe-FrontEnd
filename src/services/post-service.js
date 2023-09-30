@@ -1,7 +1,7 @@
 import { httpService } from "./http.service";
 
-async function getPosts() {
-  const posts = await httpService.get("/posts");
+async function getPosts(userId) {
+  const posts = await httpService.get(`/posts/${userId}`);
   return posts;
 }
 async function deletePost(id) {
@@ -13,7 +13,7 @@ async function editPost(post) {
 }
 
 async function getPost(id) {
-  const post = await httpService.get(`/posts/${id}`);
+  const post = await httpService.get(`/posts/enter/${id}`);
   return post;
 }
 
