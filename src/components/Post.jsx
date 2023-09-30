@@ -1,10 +1,11 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { loggedInUserState } from "../selectors/loggedInUser-selector";
-import { useEffect, useState } from "react";
-import { ShowMore } from "./common/ShowMore";
 import { postService } from "../services/post-service";
 import { PostDialog } from "./PostDialog.jsx";
+import { ShowMore } from "./common/ShowMore";
+import { utilService } from "../services/utils";
 
 export const Post = ({
   post,
@@ -34,13 +35,7 @@ export const Post = ({
   function onEdit() {
     editPost(post._id);
   }
-  function getFullDate(timeStamp) {
-    const date = new Date(timeStamp);
-    const dateString = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}  ${date.getHours()}:${
-      date.getMinutes() < 10 ? `0${date.getMinutes()}` : `${date.getMinutes()}`
-    }`;
-    return dateString;
-  }
+
   async function toggleLike() {
     await postService.toggleLike(loggedUser._id, post._id);
     getPosts();
@@ -51,6 +46,7 @@ export const Post = ({
     }
   }
   async function OnClickComment() {
+    if (isComments) return;
     setIsPostDialog(true);
   }
   return (
@@ -69,7 +65,7 @@ export const Post = ({
           />
           <p className="user-name">{post.user.userName}</p>
         </div>
-        <p className="time-stamp">{getFullDate(post.timeStamp)}</p>
+        <p className="time-stamp">{utilService.getFullDate(post.timeStamp)}</p>
       </div>
       {/* POST TEXT */}
       <ShowMore text={post.text} maxLength={100} />

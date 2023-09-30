@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Post } from "./Post";
 import { Button } from "./common/Button";
 import { useRecoilValue } from "recoil";
 import { loggedInUserState } from "../selectors/loggedInUser-selector";
 import { postService } from "../services/post-service";
 import { useNavigate } from "react-router-dom";
+import { utilService } from "../services/utils";
 
 export const PostDialog = ({
   isOpen,
@@ -15,12 +16,11 @@ export const PostDialog = ({
   getposts,
 }) => {
   const [commentInput, setCommentInput] = useState("");
+  const [comments, setComments] = useState();
   const loggedUser = useRecoilValue(loggedInUserState);
   const navigate = useNavigate();
-  function closeDialog(event) {
-    if (event.target.classList.contains("post-dialog")) {
-      setIsDialog(false);
-    }
+  function closeDialog() {
+    setIsDialog(false);
   }
   function onDelete() {
     deletePost();
@@ -42,19 +42,12 @@ export const PostDialog = ({
       getposts();
     }
   }
-  function getFullDate(timeStamp) {
-    const date = new Date(timeStamp);
-    const dateString = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}  ${date.getHours()}:${
-      date.getMinutes() < 10 ? `0${date.getMinutes()}` : `${date.getMinutes()}`
-    }`;
-    return dateString;
-  }
+
   async function deleteComment(commentId) {
     await postService.deleteComment(post._id, commentId);
     getposts();
   }
   async function toggleCommentLike(commentId) {
-    console.log(loggedUser._id, post._id, commentId);
     await postService.toggleCommentLike(loggedUser._id, post._id, commentId);
     getposts();
   }
@@ -63,11 +56,14 @@ export const PostDialog = ({
       return comment.likes.includes(loggedUser._id);
     }
   }
-  const comments = [...post.comments];
-  comments.reverse();
+  useEffect(() => {
+    setComments([...post.comments].reverse());
+  }, [post]);
+
   return (
     isOpen && (
-      <section className="post-dialog" onClick={closeDialog}>
+      <section className="post-dialog">
+        <div className="black-screen" onClick={closeDialog}></div>
         <div className="post-container">
           {isOpen && (
             <Post
@@ -114,7 +110,7 @@ export const PostDialog = ({
                       <p className="user-name">{comment.user.userName}</p>
                     </div>
                     <p className="time-stamp">
-                      {getFullDate(comment.timeStamp)}
+                      {utilService.getFullDate(comment.timeStamp)}
                     </p>
                   </div>
                   <p className="comment-text">{comment.text}</p>
