@@ -6,15 +6,20 @@ import { loggedInUserState } from "../selectors/loggedInUser-selector";
 import { authService } from "../services/auth-service";
 import { loggedInUser } from "../atoms/loggedInUser";
 import { SearchDialog } from "./SearchDialog";
+import { ConfirmDialog } from "./ConfirmDialog";
 
 export const Drawer = ({ isOpen, onClose, openSearchDialog }) => {
   const [buttons, setButtons] = useState();
   const [currentUser, setCurrentUser] = useRecoilState(loggedInUser);
   const navigate = useNavigate();
   const loggedUser = useRecoilValue(loggedInUserState);
+  const [isLogoutDialog, setIsLogoutDialog] = useState(false);
   function goToProfile() {
     navigate(`/profile/${currentUser._id}`);
     onClose();
+  }
+  function openLogoutDialog() {
+    setIsLogoutDialog(true);
   }
 
   async function logoutUser() {
@@ -24,7 +29,6 @@ export const Drawer = ({ isOpen, onClose, openSearchDialog }) => {
     onClose();
   }
   useEffect(() => {
-    console.log(currentUser);
     const drawerButtons = [
       {
         label: "Profile",
@@ -36,7 +40,8 @@ export const Drawer = ({ isOpen, onClose, openSearchDialog }) => {
       },
       {
         label: "Logout",
-        callBack: logoutUser,
+        callBack: openLogoutDialog,
+        class: "logout",
       },
     ];
     setButtons(drawerButtons);
@@ -46,13 +51,19 @@ export const Drawer = ({ isOpen, onClose, openSearchDialog }) => {
       <div className="drawer-inner">
         {buttons.map((btn, index) => {
           return (
-            <div>
+            <div className={btn.class}>
               <Button key={index} label={btn.label} onClick={btn.callBack} />
             </div>
           );
         })}
       </div>
       <div className="black-screen" onClick={onClose}></div>
+      <ConfirmDialog
+        isOpen={isLogoutDialog}
+        onOk={logoutUser}
+        onCloseDialog={() => setIsLogoutDialog(false)}
+        description="Are you sure you want to logout?"
+      />
     </section>
   ) : (
     <span></span>

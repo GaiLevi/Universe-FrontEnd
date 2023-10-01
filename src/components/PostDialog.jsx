@@ -6,6 +6,7 @@ import { loggedInUserState } from "../selectors/loggedInUser-selector";
 import { postService } from "../services/post-service";
 import { useNavigate } from "react-router-dom";
 import { utilService } from "../services/utils";
+import { ConfirmDialog } from "./ConfirmDialog";
 
 export const PostDialog = ({
   isOpen,
@@ -17,6 +18,9 @@ export const PostDialog = ({
 }) => {
   const [commentInput, setCommentInput] = useState("");
   const [comments, setComments] = useState();
+  const [isDeleteCommentDialog, setIsDeleteCommentDialog] = useState(false);
+  const [commentIdToDelete, setCommentIdToDelete] = useState(null);
+
   const loggedUser = useRecoilValue(loggedInUserState);
   const navigate = useNavigate();
   function closeDialog() {
@@ -59,6 +63,16 @@ export const PostDialog = ({
   useEffect(() => {
     setComments([...post.comments].reverse());
   }, [post]);
+
+  function openDeleteCommentDialog(commentId) {
+    setCommentIdToDelete(commentId);
+    setIsDeleteCommentDialog(true);
+  }
+
+  function closeDeleteCommentDialog() {
+    setCommentIdToDelete(null);
+    setIsDeleteCommentDialog(false);
+  }
 
   return (
     isOpen && (
@@ -134,7 +148,7 @@ export const PostDialog = ({
                         className="delete-img"
                         src={require("../assets/imgs/delete.svg").default}
                         alt="delete"
-                        onClick={() => deleteComment(comment._id)}
+                        onClick={() => openDeleteCommentDialog(comment._id)}
                       />
                     ) : (
                       <br />
@@ -145,6 +159,12 @@ export const PostDialog = ({
             })}
           </div>
         </div>
+        <ConfirmDialog
+          isOpen={isDeleteCommentDialog}
+          onCloseDialog={closeDeleteCommentDialog}
+          onOk={() => deleteComment(commentIdToDelete)}
+          description="Are you sure you want to delete the comment?"
+        />
       </section>
     )
   );

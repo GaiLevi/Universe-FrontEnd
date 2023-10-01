@@ -21,7 +21,7 @@ export const Feed = () => {
   }
   async function deletePost(id) {
     await postService.deletePost(id);
-    setPosts(await postService.getPosts());
+    setPosts(await postService.getPosts(user._id));
   }
   async function enterPost(id) {
     navigate(`/post/${id}`);

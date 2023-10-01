@@ -6,7 +6,6 @@ async function getPosts(userId) {
 }
 async function deletePost(id) {
   await httpService.delete(`/posts/${id}`);
-  await getPosts();
 }
 async function editPost(post) {
   await httpService.put(`/posts`, post);

@@ -2,10 +2,18 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { userService } from "../services/user-service";
 import { loggedInUserState } from "../selectors/loggedInUser-selector";
 import { loggedInUser } from "../atoms/loggedInUser";
+import { useNavigate } from "react-router-dom";
 
-export const UserDisplay = ({ user }) => {
+export const UserDisplay = ({ user, onCloseDialog }) => {
   const loggedUser = useRecoilValue(loggedInUserState);
   const [currentUser, setCurrentUser] = useRecoilState(loggedInUser);
+  const navigate = useNavigate();
+  function goToProfile() {
+    if (onCloseDialog) {
+      onCloseDialog();
+    }
+    navigate(`/profile/${user._id}`);
+  }
   async function OnToggleFollow() {
     await userService.toggleFollow(loggedUser._id, user._id);
     const updatedLoggedUser = await userService.getUserById(loggedUser._id);
@@ -17,7 +25,7 @@ export const UserDisplay = ({ user }) => {
 
   return (
     <section className="user-display-section">
-      <div className="user-info">
+      <div className="user-info" onClick={goToProfile}>
         <img
           className="profile-image"
           src={user.profileImage}

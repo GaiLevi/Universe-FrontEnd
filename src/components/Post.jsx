@@ -6,6 +6,7 @@ import { postService } from "../services/post-service";
 import { PostDialog } from "./PostDialog.jsx";
 import { ShowMore } from "./common/ShowMore";
 import { utilService } from "../services/utils";
+import { ConfirmDialog } from "./ConfirmDialog";
 
 export const Post = ({
   post,
@@ -26,8 +27,12 @@ export const Post = ({
   }, [post]);
   const navigate = useNavigate();
   const [isPostDialog, setIsPostDialog] = useState(false);
+  const [isDeleteDialog, setIsDeleteDialog] = useState(false);
   function onDelete() {
     deletePost(post._id);
+  }
+  function openDelteDialog() {
+    setIsDeleteDialog(true);
   }
   function onEnter() {
     enterPost(post._id);
@@ -103,7 +108,7 @@ export const Post = ({
             <img
               className="action-btn"
               src={require("../assets/imgs/delete.svg").default}
-              onClick={onDelete}
+              onClick={openDelteDialog}
               alt="delete"
             />
           ) : (
@@ -137,6 +142,13 @@ export const Post = ({
           getposts={getPosts}
         />
       </div>
+
+      <ConfirmDialog
+        isOpen={isDeleteDialog}
+        onOk={onDelete}
+        onCloseDialog={() => setIsDeleteDialog(false)}
+        description="Are you sure you want to delete the post?"
+      />
     </section>
   );
 };

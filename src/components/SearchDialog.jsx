@@ -40,7 +40,13 @@ export const SearchDialog = ({ isOpen, onClose }) => {
           value={input}
         />
         {users.map((user, index) => {
-          return <UserDisplay key={index} user={user} />;
+          return (
+            <UserDisplay
+              key={index}
+              user={user}
+              onCloseDialog={onCloseDialog}
+            />
+          );
         })}
       </div>
     </section>
