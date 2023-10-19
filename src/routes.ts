@@ -1,5 +1,6 @@
 import { Feed } from "./views/Feed.jsx";
 import { Login } from "./views/Login.jsx";
+import { Notifications } from "./views/Notifications.jsx";
 import { ProfilePage } from "./views/ProfilePage.jsx";
 import { SignUp } from "./views/SignUp.jsx";
 import { SinglePost } from "./views/SinglePost.jsx";
@@ -10,7 +11,7 @@ const routes = [
     element: Feed,
   },
   {
-    path: "/post/:id",
+    path: "/post/:id/:isView?",
     element: SinglePost,
   },
   {
@@ -24,6 +25,10 @@ const routes = [
   {
     path: "/profile/:id",
     element: ProfilePage,
+  },
+  {
+    path: "/notifications",
+    element: Notifications,
   },
 ];
 

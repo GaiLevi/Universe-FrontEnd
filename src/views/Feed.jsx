@@ -6,10 +6,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { postService } from "../services/post-service.js";
 import { loggedInUserState } from "../selectors/loggedInUser-selector.js";
 import { useRecoilValue } from "recoil";
+import { Loader } from "../components/common/Loader.jsx";
 export const Feed = () => {
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
   const user = useRecoilValue(loggedInUserState);
+  const [isLoader, setIsLoader] = useState(true);
   useEffect(() => {
     getPosts();
   }, [user]);
@@ -17,6 +19,7 @@ export const Feed = () => {
     if (user) {
       const posts = await postService.getPosts(user._id);
       setPosts(posts);
+      setIsLoader(false);
     }
   }
   async function deletePost(id) {
@@ -35,6 +38,7 @@ export const Feed = () => {
         enterPost={enterPost}
         getPosts={getPosts}
       ></PostsFeed>
+      {isLoader && <Loader />}
     </section>
   );
 };

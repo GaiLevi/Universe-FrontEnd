@@ -14,6 +14,7 @@ const App = () => {
   const location = useLocation();
   async function setUserToken() {
     const user = await authService.getLoggedUser();
+    console.log("user", user);
     if (!user) {
       navigate("/login");
     } else {

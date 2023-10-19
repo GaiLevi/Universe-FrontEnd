@@ -7,6 +7,7 @@ import { PostDialog } from "./PostDialog.jsx";
 import { ShowMore } from "./common/ShowMore";
 import { utilService } from "../services/utils";
 import { ConfirmDialog } from "./ConfirmDialog";
+import { notificationService } from "../services/notification-service";
 
 export const Post = ({
   post,
@@ -17,12 +18,16 @@ export const Post = ({
   isEdit,
   isComments,
   getPosts,
+  isView,
 }) => {
   const loggedUser = useRecoilValue(loggedInUserState);
   const [isUserOwnPost, setIsUserOwnPost] = useState(false);
   useEffect(() => {
-    if (post.user.id === loggedUser._id) {
+    if (loggedUser && post.user.id === loggedUser._id) {
       setIsUserOwnPost(true);
+    }
+    if (isView) {
+      setIsPostDialog(true);
     }
   }, [post]);
   const navigate = useNavigate();
@@ -43,6 +48,15 @@ export const Post = ({
 
   async function toggleLike() {
     await postService.toggleLike(loggedUser._id, post._id);
+    const notification = {
+      recieverId: post.user.id,
+      action: "Like",
+      postId: post._id,
+      provokerId: loggedUser._id,
+    };
+    if (notification.provokerId !== notification.recieverId) {
+      await notificationService.toggleNotification(notification);
+    }
     getPosts();
   }
   function isUserLiked() {

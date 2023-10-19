@@ -48,12 +48,20 @@ export const AppHeader = () => {
         />
         <h1 className="title">Universe</h1>
       </div>
-      <img
-        className="drawer-image"
-        src={require("../assets/imgs/menu.svg").default}
-        alt="menu"
-        onClick={() => setIsDrawer(true)}
-      />
+      <div>
+        <img
+          className="notification-image"
+          src={require("../assets/imgs/notification.svg").default}
+          alt="notification"
+          onClick={() => navigate("/notifications")}
+        />
+        <img
+          className="drawer-image"
+          src={require("../assets/imgs/menu.svg").default}
+          alt="menu"
+          onClick={() => setIsDrawer(true)}
+        />
+      </div>
 
       <Drawer
         isOpen={isDrawer}

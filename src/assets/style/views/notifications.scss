@@ -1,0 +1,25 @@
+.notifications {
+  .notification {
+    display: flex;
+    align-items: center;
+    transition-duration: 0.2s;
+    cursor: pointer;
+    .not-msg {
+      text-align: left;
+      flex-grow: 1;
+      font-size: 21px;
+    }
+    .user-display-section {
+      .user-name {
+        padding-inline-start: 10px;
+      }
+      padding-inline-end: 10px;
+      &:hover {
+        background-color: unset;
+      }
+    }
+    &:hover {
+      background-color: #8699a1;
+    }
+  }
+}

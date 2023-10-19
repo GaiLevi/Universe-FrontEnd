@@ -51,8 +51,8 @@ export const Drawer = ({ isOpen, onClose, openSearchDialog }) => {
       <div className="drawer-inner">
         {buttons.map((btn, index) => {
           return (
-            <div className={btn.class}>
-              <Button key={index} label={btn.label} onClick={btn.callBack} />
+            <div className={btn.class} key={index}>
+              <Button label={btn.label} onClick={btn.callBack} />
             </div>
           );
         })}

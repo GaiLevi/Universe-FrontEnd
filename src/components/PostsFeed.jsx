@@ -1,4 +1,3 @@
-import React from "react";
 import { Post } from "./Post";
 
 export const PostsFeed = ({ posts, deletePost, enterPost, getPosts }) => {

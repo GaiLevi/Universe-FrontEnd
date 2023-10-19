@@ -1,6 +1,7 @@
 .search-dialog {
   position: fixed;
   .search-container {
+    overflow-y: auto;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -18,6 +19,31 @@
       border: none;
       border-radius: 7px;
     }
+    &::-webkit-scrollbar {
+      width: 6px; /* Set the width of the scrollbar */
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.5); /* Set the thumb color */
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(0, 0, 0, 0.7); /* Set the thumb color on hover */
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: rgba(0, 0, 0, 0.1); /* Set the track color */
+    }
+    scrollbar-width: thin; /* Set the width of the scrollbar (supported in Firefox) */
+    scrollbar-color: rgba(0, 0, 0, 0.5) rgba(0, 0, 0, 0.1); /* Set the scrollbar color (supported in Firefox) */
+  }
+
+  .input-container {
+    border-radius: 10px;
+    position: sticky;
+    top: 0;
+    background-color: #adc4ce;
+    width: 100%;
   }
   .black-screen {
     z-index: 10;
@@ -28,5 +54,17 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.494);
     cursor: pointer;
+  }
+  .loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 }

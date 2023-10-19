@@ -4,13 +4,13 @@ import { loggedInUserState } from "../selectors/loggedInUser-selector";
 import { loggedInUser } from "../atoms/loggedInUser";
 import { useNavigate } from "react-router-dom";
 
-export const UserDisplay = ({ user, onCloseDialog }) => {
+export const UserDisplay = ({ user, onUserClick, renderFollow }) => {
   const loggedUser = useRecoilValue(loggedInUserState);
   const [currentUser, setCurrentUser] = useRecoilState(loggedInUser);
   const navigate = useNavigate();
   function goToProfile() {
-    if (onCloseDialog) {
-      onCloseDialog();
+    if (onUserClick) {
+      onUserClick();
     }
     navigate(`/profile/${user._id}`);
   }
@@ -24,29 +24,31 @@ export const UserDisplay = ({ user, onCloseDialog }) => {
   }
 
   return (
-    <section className="user-display-section">
-      <div className="user-info" onClick={goToProfile}>
-        <img
-          className="profile-image"
-          src={user.profileImage}
-          alt="profileImage"
-        />
-        <p className="user-name">{user.userName}</p>
-      </div>
-      {!userService.isOwnUser(loggedUser, user._id) && (
-        <div className="follow" onClick={OnToggleFollow}>
+    user && (
+      <section className="user-display-section">
+        <div className="user-info" onClick={goToProfile}>
           <img
-            className="follow-image"
-            src={
-              require(isFollowed()
-                ? `../assets/imgs/confirm.svg`
-                : `../assets/imgs/plus.svg`).default
-            }
-            alt="follow"
+            className="profile-image"
+            src={user.profileImage}
+            alt="profileImage"
           />
-          <p>{isFollowed() ? "Unfollow" : "Follow"}</p>
+          <p className="user-name">{user.userName}</p>
         </div>
-      )}
-    </section>
+        {!userService.isOwnUser(loggedUser, user._id) && renderFollow && (
+          <div className="follow" onClick={OnToggleFollow}>
+            <img
+              className="follow-image"
+              src={
+                require(isFollowed()
+                  ? `../assets/imgs/confirm.svg`
+                  : `../assets/imgs/plus.svg`).default
+              }
+              alt="follow"
+            />
+            <p>{isFollowed() ? "Unfollow" : "Follow"}</p>
+          </div>
+        )}
+      </section>
+    )
   );
 };

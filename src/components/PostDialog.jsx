@@ -7,6 +7,7 @@ import { postService } from "../services/post-service";
 import { useNavigate } from "react-router-dom";
 import { utilService } from "../services/utils";
 import { ConfirmDialog } from "./ConfirmDialog";
+import { notificationService } from "../services/notification-service";
 
 export const PostDialog = ({
   isOpen,
@@ -42,6 +43,15 @@ export const PostDialog = ({
         profileImage: loggedUser.profileImage,
       };
       await postService.addComment(post._id, user, commentInput);
+      const notification = {
+        recieverId: post.user.id,
+        action: "Comment",
+        postId: post._id,
+        provokerId: loggedUser._id,
+      };
+      if (notification.provokerId !== notification.recieverId) {
+        await notificationService.toggleNotification(notification);
+      }
       setCommentInput("");
       getposts();
     }
@@ -49,6 +59,16 @@ export const PostDialog = ({
 
   async function deleteComment(commentId) {
     await postService.deleteComment(post._id, commentId);
+    const notification = {
+      recieverId: post.user.id,
+      action: "Comment",
+      postId: post._id,
+      commentId: commentId,
+      provokerId: loggedUser._id,
+    };
+    if (notification.provokerId !== notification.recieverId) {
+      await notificationService.toggleNotification(notification);
+    }
     getposts();
   }
   async function toggleCommentLike(commentId) {
