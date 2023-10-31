@@ -48,13 +48,18 @@ export const AppHeader = () => {
         />
         <h1 className="title">Universe</h1>
       </div>
-      <div>
-        <img
-          className="notification-image"
-          src={require("../assets/imgs/notification.svg").default}
-          alt="notification"
-          onClick={() => navigate("/notifications")}
-        />
+      <div className="header-icons-container">
+        <div className="notification-icon-container">
+          <img
+            className="notification-image"
+            src={require("../assets/imgs/notification.svg").default}
+            alt="notification"
+            onClick={() => navigate("/notifications")}
+          />
+          {loggedUser && loggedUser.unseenNotifications > 0 && (
+            <p>{loggedUser.unseenNotifications}</p>
+          )}
+        </div>
         <img
           className="drawer-image"
           src={require("../assets/imgs/menu.svg").default}

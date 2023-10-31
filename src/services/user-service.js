@@ -35,10 +35,26 @@ async function getUsersByName(userName) {
 function isOwnUser(loggedUser, id) {
   return loggedUser._id === id;
 }
+async function resetUnseenNot(userId) {
+  try {
+    return await httpService.put(`/users/${userId}`);
+  } catch (error) {
+    console.log(error);
+  }
+}
+async function updateUser(user) {
+  try {
+    return await httpService.put(`/users`, user);
+  } catch (error) {
+    console.log(error);
+  }
+}
 export const userService = {
   signUpUser,
   getUserById,
   toggleFollow,
   getUsersByName,
   isOwnUser,
+  resetUnseenNot,
+  updateUser,
 };

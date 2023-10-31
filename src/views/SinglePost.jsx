@@ -47,9 +47,10 @@ export const SinglePost = () => {
         />
       )}
       <EditDialog
-        editPost={editPost}
+        editProperty={editPost}
         isOpen={isDialog}
         setIsDialog={setIsDialog}
+        descripsion="Edit Post"
       />
     </section>
   );

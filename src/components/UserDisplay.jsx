@@ -3,6 +3,7 @@ import { userService } from "../services/user-service";
 import { loggedInUserState } from "../selectors/loggedInUser-selector";
 import { loggedInUser } from "../atoms/loggedInUser";
 import { useNavigate } from "react-router-dom";
+import { notificationService } from "../services/notification-service";
 
 export const UserDisplay = ({ user, onUserClick, renderFollow }) => {
   const loggedUser = useRecoilValue(loggedInUserState);
@@ -16,6 +17,14 @@ export const UserDisplay = ({ user, onUserClick, renderFollow }) => {
   }
   async function OnToggleFollow() {
     await userService.toggleFollow(loggedUser._id, user._id);
+    const notification = {
+      recieverId: user._id,
+      action: "follow",
+      provokerId: loggedUser._id,
+    };
+    if (notification.provokerId !== notification.recieverId) {
+      await notificationService.toggleNotification(notification);
+    }
     const updatedLoggedUser = await userService.getUserById(loggedUser._id);
     setCurrentUser(updatedLoggedUser);
   }
@@ -24,7 +33,8 @@ export const UserDisplay = ({ user, onUserClick, renderFollow }) => {
   }
 
   return (
-    user && (
+    user &&
+    loggedUser && (
       <section className="user-display-section">
         <div className="user-info" onClick={goToProfile}>
           <img

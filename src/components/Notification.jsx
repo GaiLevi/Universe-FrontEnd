@@ -11,7 +11,6 @@ export const Notification = ({ notification }) => {
   }, []);
   async function fetchUser() {
     const provoker = await userService.getUserById(notification.provokerId);
-    console.log(provoker);
     setUser(provoker);
   }
   function getNotificationMsg() {
@@ -22,6 +21,8 @@ export const Notification = ({ notification }) => {
         return "commented on your post.";
       case "CommentLike":
         return "liked your comment.";
+      case "follow":
+        return "started following you.";
       default:
         return "";
     }
@@ -31,7 +32,11 @@ export const Notification = ({ notification }) => {
       <UserDisplay user={user} renderFollow={false} />
       <p
         onClick={() => {
-          navigate(`/post/${notification.postId}/view`);
+          if (notification.action === "follow") {
+            navigate(`/profile/${notification.provokerId}`);
+          } else {
+            navigate(`/post/${notification.postId}/view`);
+          }
         }}
         className="not-msg"
       >

@@ -14,12 +14,16 @@ export const Notifications = () => {
     if (loggedUser && !isUser) {
       setIsUser(true);
       getUser();
-      setNots(loggedUser.notifications);
+      resetUnseenNotifications();
+      setNots([...loggedUser.notifications].reverse());
     }
   }, [loggedUser]);
   async function getUser() {
     const user = await userService.getUserById(loggedUser._id);
     setCurrentUser(user);
+  }
+  async function resetUnseenNotifications() {
+    await userService.resetUnseenNot(loggedUser._id);
   }
   return (
     <section className="notifications">

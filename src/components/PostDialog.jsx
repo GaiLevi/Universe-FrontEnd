@@ -42,11 +42,16 @@ export const PostDialog = ({
         userName: loggedUser.userName,
         profileImage: loggedUser.profileImage,
       };
-      await postService.addComment(post._id, user, commentInput);
+      const newComment = await postService.addComment(
+        post._id,
+        user,
+        commentInput
+      );
       const notification = {
         recieverId: post.user.id,
         action: "Comment",
         postId: post._id,
+        commentId: newComment._id,
         provokerId: loggedUser._id,
       };
       if (notification.provokerId !== notification.recieverId) {
@@ -57,7 +62,8 @@ export const PostDialog = ({
     }
   }
 
-  async function deleteComment(commentId) {
+  async function deleteComment(comment) {
+    const commentId = comment._id;
     await postService.deleteComment(post._id, commentId);
     const notification = {
       recieverId: post.user.id,
@@ -71,8 +77,20 @@ export const PostDialog = ({
     }
     getposts();
   }
-  async function toggleCommentLike(commentId) {
+  async function toggleCommentLike(comment) {
+    const commentId = comment._id;
     await postService.toggleCommentLike(loggedUser._id, post._id, commentId);
+    const notification = {
+      recieverId: comment.user.id,
+      action: "CommentLike",
+      postId: post._id,
+      commentId: commentId,
+      provokerId: loggedUser._id,
+    };
+    console.log(comment.user.id, notification.provokerId);
+    if (notification.provokerId !== notification.recieverId) {
+      await notificationService.toggleNotification(notification);
+    }
     getposts();
   }
   function isUserLiked(comment) {
@@ -153,7 +171,7 @@ export const PostDialog = ({
                     <div>
                       <img
                         className="like-btn"
-                        onClick={() => toggleCommentLike(comment._id)}
+                        onClick={() => toggleCommentLike(comment)}
                         src={
                           require(isUserLiked(comment)
                             ? "../assets/imgs/like-filled.svg"
@@ -161,14 +179,14 @@ export const PostDialog = ({
                         }
                         alt="like"
                       />
-                      <p>{comment.likes.length}</p>
+                      <p>{loggedUser && comment.likes.length}</p>
                     </div>
                     {comment.user.id === loggedUser._id ? (
                       <img
                         className="delete-img"
                         src={require("../assets/imgs/delete.svg").default}
                         alt="delete"
-                        onClick={() => openDeleteCommentDialog(comment._id)}
+                        onClick={() => openDeleteCommentDialog(comment)}
                       />
                     ) : (
                       <br />

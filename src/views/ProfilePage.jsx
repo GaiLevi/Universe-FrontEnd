@@ -7,6 +7,8 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { loggedInUserState } from "../selectors/loggedInUser-selector";
 import { authService } from "../services/auth-service";
 import { loggedInUser } from "../atoms/loggedInUser";
+import { notificationService } from "../services/notification-service";
+import { EditDialog } from "../components/EditDialog";
 
 export const ProfilePage = () => {
   const { id } = useParams();
@@ -18,6 +20,7 @@ export const ProfilePage = () => {
   const [userPosts, setUserPosts] = useState([]);
   const loggedUser = useRecoilValue(loggedInUserState);
   const [currentUser, setCurrentUser] = useRecoilState(loggedInUser);
+  const [isDialog, setIsDialog] = useState(false);
 
   const navigate = useNavigate();
   async function getUser() {
@@ -35,11 +38,24 @@ export const ProfilePage = () => {
   }
   async function OnToggleFollow() {
     await userService.toggleFollow(loggedUser._id, id);
+    const notification = {
+      recieverId: id,
+      action: "follow",
+      provokerId: loggedUser._id,
+    };
+    if (notification.provokerId !== notification.recieverId) {
+      await notificationService.toggleNotification(notification);
+    }
     const updatedLoggedUser = await userService.getUserById(loggedUser._id);
     setCurrentUser(updatedLoggedUser);
   }
   function isFollowed() {
     return loggedUser.follows.includes(id);
+  }
+  async function editProfilePicture(newProfileImage) {
+    const editedUser = { ...loggedUser, profileImage: newProfileImage };
+    await userService.updateUser(editedUser);
+    setCurrentUser(editedUser);
   }
 
   return (
@@ -51,6 +67,11 @@ export const ProfilePage = () => {
               className="profile-img-header"
               src={user.profileImage}
               alt="profile-img"
+              onClick={() => {
+                if (userService.isOwnUser(loggedUser, id)) {
+                  setIsDialog(true);
+                }
+              }}
             />
             <div className="user-details">
               <h1>{user.userName}</h1>
@@ -79,6 +100,12 @@ export const ProfilePage = () => {
           />
         </div>
       )}
+      <EditDialog
+        editProperty={editProfilePicture}
+        isOpen={isDialog}
+        setIsDialog={setIsDialog}
+        descripsion="Edit Profile picture - enter new image URL"
+      />
     </section>
   );
 };

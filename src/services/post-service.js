@@ -30,7 +30,7 @@ async function toggleLike(userId, postId) {
 }
 
 async function addComment(postId, user, text) {
-  await httpService.post(`/posts/comment/${postId}`, {
+  return await httpService.post(`/posts/comment/${postId}`, {
     text: text,
     user: user,
   });
