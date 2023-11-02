@@ -13,14 +13,21 @@ import { EditDialog } from "../components/EditDialog";
 export const ProfilePage = () => {
   const { id } = useParams();
   useEffect(() => {
-    getUser();
-    getUserPosts();
+    async function fetchData() {
+      try {
+        await getUser();
+        await getUserPosts();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
   }, [id]);
-  const [user, setUser] = useState();
   const [userPosts, setUserPosts] = useState([]);
   const loggedUser = useRecoilValue(loggedInUserState);
   const [currentUser, setCurrentUser] = useRecoilState(loggedInUser);
   const [isDialog, setIsDialog] = useState(false);
+  const [user, setUser] = useState();
 
   const navigate = useNavigate();
   async function getUser() {
@@ -50,7 +57,7 @@ export const ProfilePage = () => {
     setCurrentUser(updatedLoggedUser);
   }
   function isFollowed() {
-    return loggedUser.follows.includes(id);
+    return loggedUser && loggedUser.follows.includes(id);
   }
   async function editProfilePicture(newProfileImage) {
     const editedUser = { ...loggedUser, profileImage: newProfileImage };
@@ -74,8 +81,8 @@ export const ProfilePage = () => {
               }}
             />
             <div className="user-details">
-              <h1>{user.userName}</h1>
-              <h2>{user.email}</h2>
+              <h1>{user && user.userName}</h1>
+              <h2>{user && user.email}</h2>
             </div>
             {!userService.isOwnUser(loggedUser, id) && (
               <div className="follow" onClick={OnToggleFollow}>
@@ -104,7 +111,7 @@ export const ProfilePage = () => {
         editProperty={editProfilePicture}
         isOpen={isDialog}
         setIsDialog={setIsDialog}
-        descripsion="Edit Profile picture - enter new image URL"
+        description="Edit Profile picture - enter new image URL"
       />
     </section>
   );

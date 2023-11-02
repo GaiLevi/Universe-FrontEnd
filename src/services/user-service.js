@@ -33,7 +33,10 @@ async function getUsersByName(userName) {
   }
 }
 function isOwnUser(loggedUser, id) {
-  return loggedUser._id === id;
+  if (loggedUser && id) {
+    return loggedUser._id === id;
+  }
+  return false;
 }
 async function resetUnseenNot(userId) {
   try {
@@ -49,6 +52,13 @@ async function updateUser(user) {
     console.log(error);
   }
 }
+async function updateProfileImage(user) {
+  try {
+    return await httpService.put(`/users/profileImage`, user);
+  } catch (error) {
+    console.log(error);
+  }
+}
 export const userService = {
   signUpUser,
   getUserById,
@@ -57,4 +67,5 @@ export const userService = {
   isOwnUser,
   resetUnseenNot,
   updateUser,
+  updateProfileImage,
 };

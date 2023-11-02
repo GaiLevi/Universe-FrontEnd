@@ -50,7 +50,7 @@ export const SinglePost = () => {
         editProperty={editPost}
         isOpen={isDialog}
         setIsDialog={setIsDialog}
-        descripsion="Edit Post"
+        description="Edit Post"
       />
     </section>
   );

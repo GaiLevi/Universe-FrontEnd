@@ -6,7 +6,7 @@ export const EditDialog = ({
   isOpen,
   setIsDialog,
   editProperty,
-  descripsion,
+  description,
 }) => {
   function closeDialog() {
     setIsDialog(false);
@@ -37,8 +37,8 @@ export const EditDialog = ({
           onClick={closeDialog}
         ></div>
         <section className="edit-dialog">
-          <p>{descripsion}</p>
           <div className="action-container">
+            <p className="description">{description}</p>
             <input type="text" onInput={onInput} value={input} />
             <Button
               className="edit-btn"
