@@ -40,7 +40,7 @@ function isOwnUser(loggedUser, id) {
 }
 async function resetUnseenNot(userId) {
   try {
-    return await httpService.put(`/users/${userId}`);
+    return await httpService.put(`/users/resetUnseenNot/${userId}`);
   } catch (error) {
     console.log(error);
   }

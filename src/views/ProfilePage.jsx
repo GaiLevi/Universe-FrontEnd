@@ -61,7 +61,7 @@ export const ProfilePage = () => {
   }
   async function editProfilePicture(newProfileImage) {
     const editedUser = { ...loggedUser, profileImage: newProfileImage };
-    await userService.updateUser(editedUser);
+    await userService.updateProfileImage(editedUser);
     setCurrentUser(editedUser);
   }
 

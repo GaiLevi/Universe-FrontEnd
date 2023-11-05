@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import "./App.css";
 import "./assets/style/main.scss";
 import { loggedInUser } from "./atoms/loggedInUser";
@@ -8,8 +8,12 @@ import { AppHeader } from "./components/AppHeader";
 import routes from "./routes.ts";
 import { authService } from "./services/auth-service";
 import "./views/Feed";
+import { socketService } from "./services/socket.service.js";
+import { loggedInUserState } from "./selectors/loggedInUser-selector.js";
 const App = () => {
   const [loggedUser, setLoggedUser] = useRecoilState(loggedInUser);
+  const currentUser = useRecoilValue(loggedInUserState);
+
   const navigate = useNavigate();
   const location = useLocation();
   async function setUserToken() {
@@ -28,6 +32,14 @@ const App = () => {
   useEffect(() => {
     setUserToken();
   }, []);
+
+  useEffect(() => {
+    console.log("here");
+    if (currentUser) {
+      socketService.emit("setup-socket", currentUser._id);
+    }
+  }, [currentUser]);
+
   return (
     <div className="App">
       {/* Header */}

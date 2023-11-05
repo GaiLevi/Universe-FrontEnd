@@ -8,8 +8,11 @@ import { authService } from "../services/auth-service";
 import { Drawer } from "./Drawer";
 import { useState } from "react";
 import { SearchDialog } from "./SearchDialog";
+import { socketService } from "../services/socket.service";
 export const AppHeader = () => {
   const loggedUser = useRecoilValue(loggedInUserState);
+  const [currentUser, setCurrentUser] = useRecoilState(loggedInUser);
+
   const [isDrawer, setIsDrawer] = useState(false);
   const [isSearchDialog, setIsSearchDialog] = useState(false);
 
@@ -26,6 +29,12 @@ export const AppHeader = () => {
     setIsSearchDialog(true);
     setIsDrawer(false);
   }
+
+  socketService.on("notification", async () => {
+    const user = await authService.getLoggedUser();
+    console.log("back to user");
+    setCurrentUser(user);
+  });
   return (
     <section className="app-header secondary-bg">
       <div className="logged-user" onClick={goToProfile}>

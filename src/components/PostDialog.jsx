@@ -87,7 +87,6 @@ export const PostDialog = ({
       commentId: commentId,
       provokerId: loggedUser._id,
     };
-    console.log(comment.user.id, notification.provokerId);
     if (notification.provokerId !== notification.recieverId) {
       await notificationService.toggleNotification(notification);
     }
