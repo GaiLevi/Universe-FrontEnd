@@ -32,7 +32,6 @@ export const AppHeader = () => {
 
   socketService.on("notification", async () => {
     const user = await authService.getLoggedUser();
-    console.log("back to user");
     setCurrentUser(user);
   });
   return (
