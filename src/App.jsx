@@ -34,7 +34,6 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    console.log("here");
     if (currentUser) {
       socketService.emit("setup-socket", currentUser._id);
     }

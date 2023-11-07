@@ -16,8 +16,11 @@ export const Feed = () => {
     getPosts();
   }, [user]);
   async function getPosts() {
+    console.log("here");
     if (user) {
+      console.log("here2");
       const posts = await postService.getPosts(user._id);
+      console.log(posts);
       setPosts(posts);
       setIsLoader(false);
     }
