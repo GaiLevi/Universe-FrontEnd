@@ -12,6 +12,7 @@ export const Login = () => {
   const submitForm = async (info) => {
     setErrorMsg("");
     try {
+      console.log(info);
       const user = await authService.login(info);
       console.log(user);
       setLoggedUser(user);
