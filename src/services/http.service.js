@@ -2,7 +2,7 @@ import Axios from "axios";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
-    ? process.env.BACK_URL
+    ? "https://universe-backend-dogg.onrender.com"
     : "http://localhost:3000";
 
 var axios = Axios.create({
