@@ -1,6 +1,8 @@
 import io from "socket.io-client";
 const BASE_URL =
-  process.env.NODE_ENV === "production" ? "" : "//localhost:3030";
+  process.env.NODE_ENV === "production"
+    ? "https://universe-backend-dogg.onrender.com"
+    : "//localhost:3030";
 
 export const socketService = createSocketService();
 
