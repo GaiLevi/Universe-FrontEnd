@@ -30,6 +30,7 @@ const App = () => {
     }
   }
   useEffect(() => {
+    console.log("use effect app");
     setUserToken();
   }, []);
 
