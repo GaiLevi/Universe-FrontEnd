@@ -13,6 +13,7 @@ export const Login = () => {
     setErrorMsg("");
     try {
       const user = await authService.login(info);
+      console.log(user);
       setLoggedUser(user);
       navigate("/");
     } catch (error) {
