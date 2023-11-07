@@ -28,6 +28,8 @@
 
 @import "./components/user-display.scss";
 
+@import "./components/confirm-dialog.scss";
+
 // COMMONS
 @import "./components/common/button.scss";
 @import "./components/common/show-more.scss";
@@ -36,3 +38,4 @@
 @import "./views/profile-page.scss";
 @import "./views/sign-up.scss";
 @import "./views/login.scss";
+@import "./views/notifications.scss";

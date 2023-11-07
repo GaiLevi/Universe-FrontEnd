@@ -6,6 +6,9 @@ import { postService } from "../services/post-service";
 import { PostDialog } from "./PostDialog.jsx";
 import { ShowMore } from "./common/ShowMore";
 import { utilService } from "../services/utils";
+import { ConfirmDialog } from "./ConfirmDialog";
+import { notificationService } from "../services/notification-service";
+import { userService } from "../services/user-service";
 
 export const Post = ({
   post,
@@ -16,18 +19,38 @@ export const Post = ({
   isEdit,
   isComments,
   getPosts,
+  isView,
 }) => {
   const loggedUser = useRecoilValue(loggedInUserState);
   const [isUserOwnPost, setIsUserOwnPost] = useState(false);
+  const [postUser, setPostUser] = useState(null);
   useEffect(() => {
-    if (post.user.id === loggedUser._id) {
+    if (loggedUser && post.user.id === loggedUser._id) {
       setIsUserOwnPost(true);
     }
+    if (isView) {
+      setIsPostDialog(true);
+    }
+
+    // Define an async function and call it inside the useEffect
+    // async function fetchData() {
+    //   try {
+    //     await getPostUser(); // Call the async function here
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
+
+    // fetchData(); // Call the defined async function
   }, [post]);
   const navigate = useNavigate();
   const [isPostDialog, setIsPostDialog] = useState(false);
+  const [isDeleteDialog, setIsDeleteDialog] = useState(false);
   function onDelete() {
     deletePost(post._id);
+  }
+  function openDelteDialog() {
+    setIsDeleteDialog(true);
   }
   function onEnter() {
     enterPost(post._id);
@@ -35,9 +58,25 @@ export const Post = ({
   function onEdit() {
     editPost(post._id);
   }
+  async function getPostUser() {
+    try {
+      setPostUser(await userService.getUserById(post.user.id));
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async function toggleLike() {
     await postService.toggleLike(loggedUser._id, post._id);
+    const notification = {
+      recieverId: post.user.id,
+      action: "Like",
+      postId: post._id,
+      provokerId: loggedUser._id,
+    };
+    if (notification.provokerId !== notification.recieverId) {
+      await notificationService.toggleNotification(notification);
+    }
     getPosts();
   }
   function isUserLiked() {
@@ -61,6 +100,7 @@ export const Post = ({
           <img
             className="profile-img"
             src={post.user.profileImage}
+            // src={postUser && postUser.profileImage}
             alt="profile-img"
           />
           <p className="user-name">{post.user.userName}</p>
@@ -103,7 +143,7 @@ export const Post = ({
             <img
               className="action-btn"
               src={require("../assets/imgs/delete.svg").default}
-              onClick={onDelete}
+              onClick={openDelteDialog}
               alt="delete"
             />
           ) : (
@@ -137,6 +177,13 @@ export const Post = ({
           getposts={getPosts}
         />
       </div>
+
+      <ConfirmDialog
+        isOpen={isDeleteDialog}
+        onOk={onDelete}
+        onCloseDialog={() => setIsDeleteDialog(false)}
+        description="Are you sure you want to delete the post?"
+      />
     </section>
   );
 };

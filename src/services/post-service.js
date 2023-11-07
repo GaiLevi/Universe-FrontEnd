@@ -1,4 +1,5 @@
 import { httpService } from "./http.service";
+import { socketService } from "./socket.service";
 
 async function getPosts(userId) {
   const posts = await httpService.get(`/posts/${userId}`);
@@ -6,7 +7,6 @@ async function getPosts(userId) {
 }
 async function deletePost(id) {
   await httpService.delete(`/posts/${id}`);
-  await getPosts();
 }
 async function editPost(post) {
   await httpService.put(`/posts`, post);
@@ -24,6 +24,7 @@ async function getUserPosts(userId) {
 
 async function toggleLike(userId, postId) {
   try {
+    socketService.emit("notification", postId);
     await httpService.post(`/posts/like/${userId}/${postId}`);
   } catch (error) {
     console.error(error);
@@ -31,14 +32,20 @@ async function toggleLike(userId, postId) {
 }
 
 async function addComment(postId, user, text) {
-  await httpService.post(`/posts/comment/${postId}`, {
-    text: text,
-    user: user,
-  });
+  try {
+    socketService.emit("notification", postId);
+    return await httpService.post(`/posts/comment/${postId}`, {
+      text: text,
+      user: user,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 async function deleteComment(postId, commentId) {
   try {
+    socketService.emit("notification", postId);
     await httpService.delete(`/posts/comment/${postId}/${commentId}`);
   } catch (error) {
     console.log(error);
@@ -47,6 +54,7 @@ async function deleteComment(postId, commentId) {
 
 async function toggleCommentLike(userId, postId, commentId) {
   try {
+    socketService.emit("like-comment-notification", { postId, commentId });
     await httpService.post(`/posts/comment/${userId}/${postId}/${commentId}`);
   } catch (error) {
     console.log(error);

@@ -51,4 +51,25 @@
   span {
     display: none;
   }
+
+  .notification-image {
+    width: 25px;
+    cursor: pointer;
+  }
+  .header-icons-container {
+    display: flex;
+    .notification-icon-container {
+      margin-inline: 10px;
+      display: flex;
+      p {
+        width: 15px;
+        height: 15px;
+        font-size: 12px;
+        font-weight: bold;
+        background-color: rgba(252, 114, 114, 0.562);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
 }

@@ -33,7 +33,31 @@ async function getUsersByName(userName) {
   }
 }
 function isOwnUser(loggedUser, id) {
-  return loggedUser._id === id;
+  if (loggedUser && id) {
+    return loggedUser._id === id;
+  }
+  return false;
+}
+async function resetUnseenNot(userId) {
+  try {
+    return await httpService.put(`/users/resetUnseenNot/${userId}`);
+  } catch (error) {
+    console.log(error);
+  }
+}
+async function updateUser(user) {
+  try {
+    return await httpService.put(`/users`, user);
+  } catch (error) {
+    console.log(error);
+  }
+}
+async function updateProfileImage(user) {
+  try {
+    return await httpService.put(`/users/profileImage`, user);
+  } catch (error) {
+    console.log(error);
+  }
 }
 export const userService = {
   signUpUser,
@@ -41,4 +65,7 @@ export const userService = {
   toggleFollow,
   getUsersByName,
   isOwnUser,
+  resetUnseenNot,
+  updateUser,
+  updateProfileImage,
 };

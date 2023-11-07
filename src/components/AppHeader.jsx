@@ -8,8 +8,11 @@ import { authService } from "../services/auth-service";
 import { Drawer } from "./Drawer";
 import { useState } from "react";
 import { SearchDialog } from "./SearchDialog";
+import { socketService } from "../services/socket.service";
 export const AppHeader = () => {
   const loggedUser = useRecoilValue(loggedInUserState);
+  const [currentUser, setCurrentUser] = useRecoilState(loggedInUser);
+
   const [isDrawer, setIsDrawer] = useState(false);
   const [isSearchDialog, setIsSearchDialog] = useState(false);
 
@@ -26,6 +29,11 @@ export const AppHeader = () => {
     setIsSearchDialog(true);
     setIsDrawer(false);
   }
+
+  socketService.on("notification", async () => {
+    const user = await authService.getLoggedUser();
+    setCurrentUser(user);
+  });
   return (
     <section className="app-header secondary-bg">
       <div className="logged-user" onClick={goToProfile}>
@@ -48,12 +56,25 @@ export const AppHeader = () => {
         />
         <h1 className="title">Universe</h1>
       </div>
-      <img
-        className="drawer-image"
-        src={require("../assets/imgs/menu.svg").default}
-        alt="menu"
-        onClick={() => setIsDrawer(true)}
-      />
+      <div className="header-icons-container">
+        <div className="notification-icon-container">
+          <img
+            className="notification-image"
+            src={require("../assets/imgs/notification.svg").default}
+            alt="notification"
+            onClick={() => navigate("/notifications")}
+          />
+          {loggedUser && loggedUser.unseenNotifications > 0 && (
+            <p>{loggedUser.unseenNotifications}</p>
+          )}
+        </div>
+        <img
+          className="drawer-image"
+          src={require("../assets/imgs/menu.svg").default}
+          alt="menu"
+          onClick={() => setIsDrawer(true)}
+        />
+      </div>
 
       <Drawer
         isOpen={isDrawer}

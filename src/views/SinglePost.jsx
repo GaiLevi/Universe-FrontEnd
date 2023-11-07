@@ -5,7 +5,7 @@ import { Post } from "../components/Post";
 import { postService } from "../services/post-service";
 
 export const SinglePost = () => {
-  const { id } = useParams();
+  const { id, isView } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState();
   const [isDialog, setIsDialog] = useState(false);
@@ -43,12 +43,14 @@ export const SinglePost = () => {
           editPost={onEdit}
           isEdit
           getPosts={rerenderPost}
+          isView={isView === "view"}
         />
       )}
       <EditDialog
-        editPost={editPost}
+        editProperty={editPost}
         isOpen={isDialog}
         setIsDialog={setIsDialog}
+        description="Edit Post"
       />
     </section>
   );

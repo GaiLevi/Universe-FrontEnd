@@ -2,7 +2,12 @@ import { useState } from "react";
 import { httpService } from "../services/http.service";
 import { Button } from "./common/Button";
 
-export const EditDialog = ({ isOpen, setIsDialog, editPost }) => {
+export const EditDialog = ({
+  isOpen,
+  setIsDialog,
+  editProperty,
+  description,
+}) => {
   function closeDialog() {
     setIsDialog(false);
   }
@@ -14,7 +19,7 @@ export const EditDialog = ({ isOpen, setIsDialog, editPost }) => {
   }
 
   async function onEditPost() {
-    editPost(input);
+    editProperty(input);
     setInput("");
     closeDialog();
   }
@@ -33,6 +38,7 @@ export const EditDialog = ({ isOpen, setIsDialog, editPost }) => {
         ></div>
         <section className="edit-dialog">
           <div className="action-container">
+            <p className="description">{description}</p>
             <input type="text" onInput={onInput} value={input} />
             <Button
               className="edit-btn"

@@ -21,4 +21,14 @@
     background-color: #adc4ce;
     z-index: 20;
   }
+
+  Button {
+    margin-block: 10px;
+  }
+  .logout {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    bottom: 10%;
+  }
 }

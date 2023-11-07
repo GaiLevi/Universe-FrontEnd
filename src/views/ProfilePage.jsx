@@ -7,17 +7,27 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { loggedInUserState } from "../selectors/loggedInUser-selector";
 import { authService } from "../services/auth-service";
 import { loggedInUser } from "../atoms/loggedInUser";
+import { notificationService } from "../services/notification-service";
+import { EditDialog } from "../components/EditDialog";
 
 export const ProfilePage = () => {
   const { id } = useParams();
   useEffect(() => {
-    getUser();
-    getUserPosts();
+    async function fetchData() {
+      try {
+        await getUser();
+        await getUserPosts();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
   }, [id]);
-  const [user, setUser] = useState();
   const [userPosts, setUserPosts] = useState([]);
   const loggedUser = useRecoilValue(loggedInUserState);
   const [currentUser, setCurrentUser] = useRecoilState(loggedInUser);
+  const [isDialog, setIsDialog] = useState(false);
+  const [user, setUser] = useState();
 
   const navigate = useNavigate();
   async function getUser() {
@@ -35,11 +45,24 @@ export const ProfilePage = () => {
   }
   async function OnToggleFollow() {
     await userService.toggleFollow(loggedUser._id, id);
+    const notification = {
+      recieverId: id,
+      action: "follow",
+      provokerId: loggedUser._id,
+    };
+    if (notification.provokerId !== notification.recieverId) {
+      await notificationService.toggleNotification(notification);
+    }
     const updatedLoggedUser = await userService.getUserById(loggedUser._id);
     setCurrentUser(updatedLoggedUser);
   }
   function isFollowed() {
-    return loggedUser.follows.includes(id);
+    return loggedUser && loggedUser.follows.includes(id);
+  }
+  async function editProfilePicture(newProfileImage) {
+    const editedUser = { ...loggedUser, profileImage: newProfileImage };
+    await userService.updateProfileImage(editedUser);
+    setCurrentUser(editedUser);
   }
 
   return (
@@ -51,10 +74,15 @@ export const ProfilePage = () => {
               className="profile-img-header"
               src={user.profileImage}
               alt="profile-img"
+              onClick={() => {
+                if (userService.isOwnUser(loggedUser, id)) {
+                  setIsDialog(true);
+                }
+              }}
             />
             <div className="user-details">
-              <h1>{user.userName}</h1>
-              <h2>{user.email}</h2>
+              <h1>{user && user.userName}</h1>
+              <h2>{user && user.email}</h2>
             </div>
             {!userService.isOwnUser(loggedUser, id) && (
               <div className="follow" onClick={OnToggleFollow}>
@@ -79,6 +107,12 @@ export const ProfilePage = () => {
           />
         </div>
       )}
+      <EditDialog
+        editProperty={editProfilePicture}
+        isOpen={isDialog}
+        setIsDialog={setIsDialog}
+        description="Edit Profile picture - enter new image URL"
+      />
     </section>
   );
 };
