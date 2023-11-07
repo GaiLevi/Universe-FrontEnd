@@ -2,6 +2,7 @@ import { httpService } from "./http.service";
 
 async function login(user) {
   try {
+    console.log(user);
     return await httpService.post("/auth", user);
   } catch (error) {
     throw error.response.data.message;
