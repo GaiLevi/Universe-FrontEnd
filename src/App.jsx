@@ -16,28 +16,7 @@ const App = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  async function setUserToken() {
-    try {
-      const user = await authService.getLoggedUser();
-      console.log("user - set user token", user);
-      if (!user) {
-        navigate("/login");
-      } else {
-        const pathName = location.pathname;
-        if (pathName === "/login" || pathName === "/signup") {
-          navigate("/");
-        }
-        setLoggedUser(user);
-      }
-    } catch (error) {
-      navigate("/login");
-    }
-  }
-  // useEffect(() => {
-  //   console.log("use effect app");
 
-  //   setUserToken();
-  // }, []);
   useEffect(() => {
     console.log("use effect app (mount)");
 
@@ -47,14 +26,26 @@ const App = () => {
         console.log("user - set user token", user);
 
         if (!user) {
-          console.log(location.hash);
           // Check if the hash part of the URL is empty or "/"; navigate to login if true
           if (!window.location.hash || window.location.hash.startsWith("#/")) {
-            navigate("/login");
+            if (window.location.hash === "#/signup") {
+              console.log("here at signup");
+              navigate("/signup");
+            } else {
+              navigate("/login");
+            }
           }
         } else {
           const pathName = window.location.pathname;
-          if (pathName === "/login" || pathName === "/signup") {
+          const pathHashName = window.location.hash;
+          console.log(pathName, "pathName");
+          console.log(pathHashName, "pathHashName");
+          if (
+            pathName === "/login" ||
+            pathName === "/signup" ||
+            pathHashName === "#/login" ||
+            pathHashName === "#/signup"
+          ) {
             navigate("/");
           }
           setLoggedUser(user);
