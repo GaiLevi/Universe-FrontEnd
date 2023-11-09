@@ -1,8 +1,8 @@
 .edit-dialog {
   position: fixed;
 
-  width: 40%;
-  height: 30%;
+  width: 90%;
+  height: 90%;
   background-color: white;
   top: 50%;
   left: 50%;
@@ -12,6 +12,12 @@
   cursor: default;
   transition-duration: 0.2s;
   background-color: #adc4ce;
+  @media (min-width: 1024px) {
+    width: 40%;
+  }
+  @media (min-height: 310px) {
+    height: 30%;
+  }
 
   .action-container {
     position: absolute;

@@ -19,7 +19,7 @@ const App = () => {
   async function setUserToken() {
     try {
       const user = await authService.getLoggedUser();
-      console.log("user", user);
+      console.log("user - set user token", user);
       if (!user) {
         navigate("/login");
       } else {

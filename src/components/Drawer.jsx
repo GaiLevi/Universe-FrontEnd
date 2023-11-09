@@ -38,24 +38,27 @@ export const Drawer = ({ isOpen, onClose, openSearchDialog }) => {
         label: "Search",
         callBack: openSearchDialog,
       },
-      {
-        label: "Logout",
-        callBack: openLogoutDialog,
-        class: "logout",
-      },
+      // {
+      //   label: "Logout",
+      //   callBack: openLogoutDialog,
+      //   class: "logout",
+      // },
     ];
     setButtons(drawerButtons);
   }, [loggedUser]);
   return isOpen ? (
     <section className="drawer">
       <div className="drawer-inner">
-        {buttons.map((btn, index) => {
-          return (
-            <div className={btn.class} key={index}>
-              <Button label={btn.label} onClick={btn.callBack} />
-            </div>
-          );
-        })}
+        <div>
+          {buttons.map((btn, index) => {
+            return (
+              <div className={btn.class} key={index}>
+                <Button label={btn.label} onClick={btn.callBack} />
+              </div>
+            );
+          })}
+        </div>
+        <Button label={"Logout"} onClick={openLogoutDialog} />
       </div>
       <div className="black-screen" onClick={onClose}></div>
       <ConfirmDialog

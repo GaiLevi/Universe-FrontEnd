@@ -14,6 +14,9 @@
 
   .drawer-inner {
     position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     right: 0;
     top: 0;
     width: 250px;
@@ -23,12 +26,18 @@
   }
 
   Button {
+    // width: 100%;
     margin-block: 10px;
+    // color: black !important;
+    // background-color: transparent !important;
+    &:hover {
+      background-color: red;
+    }
   }
   .logout {
-    position: absolute;
+    // position: absolute;
     left: 50%;
-    transform: translate(-50%);
+    // transform: translate(-50%);
     bottom: 10%;
   }
 }
