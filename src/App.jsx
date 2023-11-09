@@ -33,11 +33,39 @@ const App = () => {
       navigate("/login");
     }
   }
-  useEffect(() => {
-    console.log("use effect app");
+  // useEffect(() => {
+  //   console.log("use effect app");
 
-    setUserToken();
-  }, []);
+  //   setUserToken();
+  // }, []);
+  useEffect(() => {
+    console.log("use effect app (mount)");
+
+    async function checkUserAndNavigate() {
+      try {
+        const user = await authService.getLoggedUser();
+        console.log("user - set user token", user);
+
+        if (!user) {
+          console.log(location.hash);
+          // Check if the hash part of the URL is empty or "/"; navigate to login if true
+          if (!window.location.hash || window.location.hash.startsWith("#/")) {
+            navigate("/login");
+          }
+        } else {
+          const pathName = window.location.pathname;
+          if (pathName === "/login" || pathName === "/signup") {
+            navigate("/");
+          }
+          setLoggedUser(user);
+        }
+      } catch (error) {
+        navigate("/login");
+      }
+    }
+
+    checkUserAndNavigate();
+  }, [navigate]);
 
   useEffect(() => {
     if (currentUser) {
@@ -64,7 +92,5 @@ const App = () => {
     </div>
   );
 };
-
-const arr = [1, 2, 3, 4];
 
 export default App;
