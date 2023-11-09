@@ -17,20 +17,25 @@ const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
   async function setUserToken() {
-    const user = await authService.getLoggedUser();
-    console.log("user", user);
-    if (!user) {
-      navigate("/login");
-    } else {
-      const pathName = location.pathname;
-      if (pathName === "/login" || pathName === "/signup") {
-        navigate("/");
+    try {
+      const user = await authService.getLoggedUser();
+      console.log("user", user);
+      if (!user) {
+        navigate("/login");
+      } else {
+        const pathName = location.pathname;
+        if (pathName === "/login" || pathName === "/signup") {
+          navigate("/");
+        }
+        setLoggedUser(user);
       }
-      setLoggedUser(user);
+    } catch (error) {
+      navigate("/login");
     }
   }
   useEffect(() => {
     console.log("use effect app");
+
     setUserToken();
   }, []);
 
